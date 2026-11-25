@@ -6,11 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:web": "vite build",
+    "cap:sync": "npx cap sync android",
+    "android:open": "npx cap open android",
+    "android:apk": "cd android && ./gradlew assembleDebug",
+    "android:aab": "cd android && ./gradlew bundleRelease",
     "lint": "eslint .",
+    "test": "node --test src/test/safetyAndRag.test.js",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@diffusionstudio/vits-web": "^1.0.3",
+    "@capacitor-community/speech-recognition": "^7.0.1",
+    "@capacitor-community/text-to-speech": "^8.0.2",
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
     "lucide-react": "^1.74.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"

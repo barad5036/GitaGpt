@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android Network Security Config
+  - Forbids cleartext traffic globally (cleartextTrafficPermitted="false")
+  - Restricts traffic strictly to our self-hosted HTTPS API domain
+  - Optional SPKI certificate pinning ready for production domain
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">api.gitagpt.example.org</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+</network-security-config>

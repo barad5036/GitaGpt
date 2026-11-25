@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: gitagpt-postgres-prod
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-gitagpt}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-gitagpt}
+    volumes:
+      - gitagpt_pgdata_prod:/var/lib/postgresql/data
+      - ./backend/db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gitagpt} -d ${POSTGRES_DB:-gitagpt}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: gitagpt-backend-prod
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 8000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-gitagpt}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-gitagpt}
+      MASTER_KEK_HEX: ${MASTER_KEK_HEX:?MASTER_KEK_HEX (64 hex chars) is required}
+      MASTER_KEK_VERSION: ${MASTER_KEK_VERSION:-1}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?JWT_ACCESS_SECRET is required}
+      GOOGLE_WEB_CLIENT_ID: ${GOOGLE_WEB_CLIENT_ID:-}
+      GOOGLE_ANDROID_CLIENT_ID: ${GOOGLE_ANDROID_CLIENT_ID:-}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-https://gitagpt.example.org,https://localhost,capacitor://localhost}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://text.pollinations.ai/openai}
+      LLM_MODEL: ${LLM_MODEL:-openai}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: gitagpt-caddy-https
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./gita-frontend/dist:/srv/www:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  gitagpt_pgdata_prod:
+  caddy_data:
+  caddy_config:

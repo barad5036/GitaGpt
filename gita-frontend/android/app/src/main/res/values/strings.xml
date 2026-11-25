@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">GitaGPT</string>
+    <string name="title_activity_main">GitaGPT</string>
+    <string name="package_name">org.gitagpt.app</string>
+    <string name="custom_url_scheme">org.gitagpt.app</string>
+</resources>

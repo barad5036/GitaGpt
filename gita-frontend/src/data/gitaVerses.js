@@ -1,145 +1,225 @@
 export const GITA_VERSES = [
   {
-    chapter: 2,
-    verse: 47,
-    shlok: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥",
-    transliteration: "Karmaṇy-evādhikāras te mā phaleṣhu kadāchana,\nMā karma-phala-hetur bhūr mā te saṅgo ’stv-akarmaṇi.",
-    meaning_en: "You have a right to perform your prescribed duties, but you are not entitled to the fruits of your actions. Never consider yourself the cause of the results of your activities, nor be attached to inaction.",
-    meaning_hi: "तुम्हारा अधिकार केवल कर्म करने में है, उसके फलों में कभी नहीं। इसलिए तुम कर्मों के फल का हेतु मत बनो और न ही कर्म न करने में तुम्हारी आसक्ति हो।",
-    daily_life_en: "Focus 100% of your energy on your preparation, work quality, and daily habits rather than obsessing over outcomes, promotions, or others' approval.",
-    daily_life_hi: "परिणाम, प्रशंसा या सफलता की चिंता छोड़ कर अपना पूरा ध्यान आज के प्रयास, अनुशासन और काम की गुणवत्ता पर लगाएं।",
-    keywords: ["work", "duty", "karma", "result", "outcome", "success", "failure", "career", "exam", "job", "anxiety", "stress", "expectation", "action", "purpose", "dharma", "nishkama"]
-  },
-  {
-    chapter: 2,
-    verse: 14,
-    shlok: "मात्रास्पर्शास्तु कौन्तेय शीतोष्णसुखदुःखदाः।\nआगमापायिनोऽनित्यास्तांस्तितिक्षस्व भारत॥",
-    transliteration: "Mātrā-sparśhās tu kaunteya śhītoṣhṇa-sukha-duḥkha-dāḥ,\nĀgamāpāyino ’nityās tāṁs titikṣhasva bhārata.",
-    meaning_en: "O son of Kunti, the contact between the senses and the sense objects gives rise to fleeting perceptions of happiness and distress. These are non-permanent, and come and go like the winter and summer seasons. O descendent of Bharat, one must learn to tolerate them without being disturbed.",
-    meaning_hi: "हे कुन्तीपुत्र! इंद्रियों और विषयों के संयोग से उत्पन्न होने वाले सुख और दुःख तो सर्दी-गर्मी की ऋतुओं के समान आने-जाने वाले और अनित्य हैं; हे भारत! तुम उनको सहन करना सीखो।",
-    daily_life_en: "When facing a bad day, heartbreak, or sudden setback, remind yourself: 'This too shall pass.' Do not make permanent life decisions based on temporary emotional storms.",
-    daily_life_hi: "जब जीवन में कठिन समय, अपमान या दुःख आए, तो याद रखें कि यह मौसम की तरह अस्थायी है। अस्थायी भावनाओं में बहकर स्थायी निर्णय न लें।",
-    keywords: ["pain", "sad", "grief", "suffering", "hardship", "bad day", "depression", "breakup", "loss", "patience", "tolerate", "change", "temporary", "emotions", "upset", "hurt"]
-  },
-  {
     chapter: 6,
     verse: 5,
     shlok: "उद्धरेदात्मनात्मानं नात्मानमवसादयेत्।\nआत्मैव ह्यात्मनो बन्धुरात्मैव रिपुरात्मनः॥",
     transliteration: "Uddhared ātmanātmānaṁ nātmānam avasādayet,\nĀtmaiva hyātmano bandhur ātmaiva ripur ātmanaḥ.",
-    meaning_en: "Elevate yourself through the power of your mind, and do not degrade yourself; for the mind can be the friend and also the enemy of the self.",
-    meaning_hi: "मनुष्य को चाहिए कि वह अपने मन के द्वारा अपना उद्धार करे और अपने को नीचे न गिरने दे; क्योंकि यह मन ही जीवात्मा का मित्र है और मन ही शत्रु है।",
-    daily_life_en: "Your inner dialogue shapes your reality. Replace self-criticism and procrastination with disciplined self-respect—train your mind to coach you rather than sabotage you.",
-    daily_life_hi: "आपका अपना मन ही आपका सबसे बड़ा मित्र या शत्रु है। आत्म-संदेह और आलस्य को छोड़कर सकारात्मक आदतों और आत्म-अनुशासन से स्वयं को ऊपर उठाएं।",
-    keywords: ["mind", "self", "confidence", "depression", "low", "lazy", "procrastination", "habit", "discipline", "mental health", "overthinking", "thoughts", "motivation", "enemy", "friend"]
-  },
-  {
-    chapter: 6,
-    verse: 35,
-    shlok: "असंशयं महाबाहो मनो दुर्निग्रहं चलम्।\nअभ्यासेन तु कौन्तेय वैराग्येण च गृह्यते॥",
-    transliteration: "Asaṁśhayaṁ mahā-bāho mano durnigrahaṁ chalam,\nAbhyāsena tu kaunteya vairāgyeṇa cha gṛihyate.",
-    meaning_en: "Lord Krishna said: O mighty-armed son of Kunti, the mind is undoubtedly restless and difficult to curb, but it can be conquered through regular practice (Abhyasa) and detachment (Vairagya).",
-    meaning_hi: "श्रीभगवान बोले—हे महाबाहो कुन्तीपुत्र! निःसंदेह मन चंचल और वश में करने में कठिन है, परंतु अभ्यास और वैराग्य के द्वारा इसे वश में किया जा सकता है।",
-    daily_life_en: "You cannot calm an overthinking mind by force in one day. Use two tools daily: consistent small practice (Abhyasa) like 10 minutes of focus, and letting go of distractions (Vairagya).",
-    daily_life_hi: "भटकते हुए मन को एक दिन में नहीं रोका जा सकता। इसे प्रतिदिन के छोटे अभ्यास (ध्यान व एकाग्रता) और व्यर्थ के भटकाव से दूरी (वैराग्य) द्वारा शांत करें।",
-    keywords: ["focus", "distraction", "restless", "overthinking", "meditation", "concentration", "control", "mind", "phone", "addiction", "study", "practice", "calm", "peace"]
-  },
-  {
-    chapter: 2,
-    verse: 62,
-    shlok: "ध्यायतो विषयान्पुंसः सङ्गस्तेषूपजायते।\nसङ्गात्सञ्जायते कामः कामात्क्रोधोऽभिजायते॥",
-    transliteration: "Dhyāyato viṣhayān puṁsaḥ saṅgas teṣhūpajāyate,\nSaṅgāt sañjāyate kāmaḥ kāmāt krodho ’bhijāyate.",
-    meaning_en: "While contemplating the objects of the senses, a person develops attachment for them; from attachment springs craving, and from unfulfilled craving arises anger.",
-    meaning_hi: "विषयों का चिंतन करने वाले मनुष्य की उन विषयों में आसक्ति हो जाती है; आसक्ति से कामना जन्म लेती है और कामना में बाधा पड़ने से क्रोध उत्पन्न होता है।",
-    daily_life_en: "Notice the chain reaction in daily life: repeatedly dwelling on something breeds obsession, obsession turns into entitlement, and when thwarted, it explodes as anger. Catch the thought at the first stage.",
-    daily_life_hi: "क्रोध और निराशा की जड़ बार-बार किसी वस्तु या अपेक्षा के बारे में सोचते रहना है। जब मन किसी लालसा में उलझने लगे, तभी अपना ध्यान रचनात्मक कार्य में मोड़ लें।",
-    keywords: ["anger", "desire", "lust", "craving", "attachment", "obsession", "addiction", "jealousy", "frustration", "temper", "impulse", "emotions", "control"]
-  },
-  {
-    chapter: 3,
-    verse: 35,
-    shlok: "श्रेयान्स्वधर्मो विगुणः परधर्मात्स्वनुष्ठितात्।\nस्वधर्मे निधनं श्रेयः परधर्मो भयावहः॥",
-    transliteration: "Śhreyān sva-dharmo viguṇaḥ para-dharmāt sv-anuṣhṭhitāt,\nSva-dharme nidhanaṁ śhreyaḥ para-dharmo bhayāvahaḥ.",
-    meaning_en: "It is far better to perform one's own natural duty (Svadharma), even imperfectly, than to perform another's duty perfectly. Even facing setback in one's own calling is better, for following another's path invites fear and inner conflict.",
-    meaning_hi: "अच्छी प्रकार आचरण किए गए दूसरे के धर्म से गुणरहित भी अपना स्वधर्म श्रेष्ठ है। अपने धर्म में तो मरना भी कल्याणकारक है और दूसरे का धर्म भय को देने वाला है।",
-    daily_life_en: "Stop comparing your life chapter and career path with others on social media. Walking your authentic path with flaws brings deeper fulfillment than imitating someone else's life.",
-    daily_life_hi: "दूसरों से अपनी तुलना करना बंद करें। किसी और की नकल करके सफल दिखने से कहीं बेहतर है अपनी स्वाभाविक क्षमता और अपने सच्चे मार्ग पर ईमानदारी से चलना।",
-    keywords: ["comparison", "jealousy", "purpose", "passion", "career", "calling", "authentic", "identity", "confused", "path", "dharma", "svadharma", "others", "society"]
-  },
-  {
-    chapter: 4,
-    verse: 38,
-    shlok: "न हि ज्ञानेन सदृशं पवित्रमिह विद्यते।\nतत्स्वयं योगसंसिद्धः कालेनात्मनि विन्दति॥",
-    transliteration: "Na hi jñānena sadṛiśhaṁ pavitram iha vidyate,\nTat svayaṁ yoga-saṁsiddhaḥ kālenātmani vindati.",
-    meaning_en: "In this world, there is nothing so purifying and sublime as transcendental knowledge. One who has attained maturity in yoga realizes this truth within the heart in due course of time.",
-    meaning_hi: "इस संसार में ज्ञान के समान पवित्र करने वाला निःसंदेह कुछ भी नहीं है। उस ज्ञान को पाकर मनुष्य समय के साथ अपने अंतःकरण में स्वयं ही शांति और सत्य का अनुभव करता है।",
-    daily_life_en: "Invest daily in true understanding, self-reflection, and continuous learning. Wisdom cleanses confusion and fear better than any external reassurance.",
-    daily_life_hi: "प्रतिदिन स्वाध्याय, आत्म-चिंतन और सही ज्ञान के लिए समय निकालें। सच्चा ज्ञान भीतर के डर और भ्रम को स्वतः ही समाप्त कर देता है।",
-    keywords: ["knowledge", "wisdom", "learning", "study", "clarity", "truth", "ignorance", "confusion", "doubt", "growth", "spiritual"]
+    meaning_en: "Elevate yourself through the power of your mind, and do not let yourself sink into sadness; for your own mind can be your truest friend.",
+    meaning_hi: "मनुष्य को चाहिए कि वह अपने मन के द्वारा अपना उद्धार करे और अपने को नीचे न गिरने दे; क्योंकि यह मन ही जीवात्मा का सच्चा मित्र है।",
+    daily_life_en: "When you feel low for no clear reason, treat yourself gently like your own best friend instead of being hard on yourself.",
+    daily_life_hi: "जब मन उदास या भारी हो, तो खुद को कोसने के बजाय अपने मन से एक प्यारे दोस्त की तरह बात करो।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/6/verse/5",
+    keywords: [
+      "achha nahi", "acha nahi", "feeling low", "sad", "depressed", "udaas", "mann", "bura lag",
+      "heavy", "down", "mind", "self", "confidence", "friend", "dost", "alone", "अच्छा नहीं", "उदास", "मन"
+    ]
   },
   {
     chapter: 18,
     verse: 66,
     shlok: "सर्वधर्मान्परित्यज्य मामेकं शरणं व्रज।\nअहं त्वा सर्वपापेभ्यो मोक्षयिष्यामि मा शुचः॥",
     transliteration: "Sarva-dharmān parityajya mām ekaṁ śharaṇaṁ vraja,\nAhaṁ tvā sarva-pāpebhyo mokṣhayiṣhyāmi mā śhuchaḥ.",
-    meaning_en: "Abandon all varieties of anxious mental calculations and simply surrender unto Me alone. I shall liberate you from all bondage and sorrow; do not fear or grieve.",
-    meaning_hi: "संपूर्ण चिंताओं और अहंकारपूर्ण गणनाओं को त्याग कर तुम केवल मेरी शरण में आ जाओ। मैं तुम्हें समस्त पापों और दुःखों से मुक्त कर दूँगा, तुम शोक मत करो।",
-    daily_life_en: "After you have done your honest best, release the crushing burden of trying to control the entire universe. Trust the larger order of life, forgive yourself for past mistakes, and move forward in peace.",
-    daily_life_hi: "जब आप अपना ईमानदार प्रयास कर चुके हों, तो हर चीज़ को नियंत्रित करने का बोझ छोड़ दें। ईश्वर और जीवन के विधान पर विश्वास रखें और अतीत के अपराध-बोध से मुक्त होकर आगे बढ़ें।",
-    keywords: ["fear", "guilt", "forgive", "surrender", "faith", "trust", "overwhelmed", "helpless", "alone", "lost", "regret", "peace", "god", "krishna", "bhakti"]
+    meaning_en: "Let go of all heavy worries and simply rest your heart in Me. I will free you from all sorrow; do not grieve.",
+    meaning_hi: "संपूर्ण चिंताओं को त्याग कर बस मेरी शरण में आ जाओ। मैं तुम्हें समस्त दुःखों से मुक्त कर दूँगा, तुम बिल्कुल शोक मत करो।",
+    daily_life_en: "You don't have to figure everything out tonight. Share your burden, breathe, and allow yourself to rest.",
+    daily_life_hi: "हर बात का बोझ अकेले मत उठाओ। अपने दोस्त से दिल हल्का करो और भरोसा रखो कि सब ठीक हो जाएगा।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/18/verse/66",
+    keywords: [
+      "bat karna", "baat karna", "talk", "listen", "lonely", "akela", "fear", "guilt", "overwhelmed",
+      "helpless", "lost", "peace", "krishna", "suno", "batao", "साथ", "अकेला", "बात"
+    ]
   },
   {
     chapter: 2,
-    verse: 56,
-    shlok: "दुःखेष्वनुद्विग्नमनाः सुखेषु विगतस्पृहः।\nवीतरागभयक्रोधः स्थितधीर्मुनिरुच्यते॥",
-    transliteration: "Duḥkheṣhv-anudvigna-manāḥ sukheṣhu vigata-spṛihaḥ,\nVīta-rāga-bhaya-krodhaḥ sthita-dhīr munir uchyate.",
-    meaning_en: "One whose mind remains undisturbed amidst misery, who does not crave frantically for pleasure, and who is free from attachment, fear, and anger, is called a sage of steady wisdom (Sthitaprajna).",
-    meaning_hi: "दुःखों की प्राप्ति होने पर जिसके मन में उद्वेग नहीं होता, सुखों की प्राप्ति में जो आसक्त नहीं होता तथा जो राग, भय और क्रोध से मुक्त है, वही स्थिरबुद्धि (स्थितप्रज्ञ) कहलाता है।",
-    daily_life_en: "Cultivate emotional poise (Sthitaprajna): don't let a single compliment inflate your ego, nor let a single criticism shatter your peace.",
-    daily_life_hi: "भावनात्मक स्थिरता (स्थितप्रज्ञता) विकसित करें: न तो थोड़ी सी प्रशंसा से अहंकार में आएं और न ही थोड़ी सी आलोचना या विफलता से टूटें।",
-    keywords: ["balance", "equanimity", "calm", "steady", "peace", "stress", "criticism", "praise", "ego", "emotional", "stability", "sthitaprajna"]
+    verse: 14,
+    shlok: "मात्रास्पर्शास्तु कौन्तेय शीतोष्णसुखदुःखदाः।\nआगमापायिनोऽनित्यास्तांस्तितिक्षस्व भारत॥",
+    transliteration: "Mātrā-sparśhās tu kaunteya śhītoṣhṇa-sukha-duḥkha-dāḥ,\nĀgamāpāyino ’nityās tāṁs titikṣhasva bhārata.",
+    meaning_en: "Happiness and distress come and go like winter and summer seasons. They are temporary—learn to pass through them with patience.",
+    meaning_hi: "सुख और दुःख तो सर्दी-गर्मी की ऋतुओं के समान आने-जाने वाले और अनित्य हैं; हे भारत! उन्हें धैर्य से सहन करना सीखो।",
+    daily_life_en: "This heavy mood is just a passing cloud, not your whole sky. Give yourself time and it will pass.",
+    daily_life_hi: "यह उदासी और भारीपन सिर्फ एक गुज़रता हुआ बादल है, हमेशा नहीं रहेगा।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/2/verse/14",
+    keywords: [
+      "pain", "sad", "grief", "suffering", "hardship", "bad day", "breakup", "loss", "patience",
+      "temporary", "emotions", "upset", "hurt", "rona", "dard", "dukh", "दुःख", "दर्द", "परेशान"
+    ]
   },
   {
-    chapter: 17,
+    chapter: 2,
+    verse: 47,
+    shlok: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥",
+    transliteration: "Karmaṇy-evādhikāras te mā phaleṣhu kadāchana,\nMā karma-phala-hetur bhūr mā te saṅgo ’stv-akarmaṇi.",
+    meaning_en: "You have a right to perform your prescribed duties, but you are not entitled to the fruits of your actions.",
+    meaning_hi: "तुम्हारा अधिकार केवल कर्म करने में है, उसके फलों में कभी नहीं। इसलिए फल की चिंता छोड़ कर अपना कर्म करो।",
+    daily_life_en: "Do your small part today with honesty, and drop the exhausting pressure of future outcomes.",
+    daily_life_hi: "भविष्य के नतीजों का बोझ उतार फेंको और बस आज के छोटे से कदम पर ध्यान दो।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/2/verse/47",
+    keywords: [
+      "work", "duty", "karma", "result", "outcome", "success", "failure", "career", "exam",
+      "job", "expectation", "action", "mehnat", "padhai", "kaam", "कर्म", "फल", "मेहनत"
+    ]
+  },
+  {
+    chapter: 6,
+    verse: 35,
+    shlok: "असंशयं महाबाहो मनो दुर्निग्रहं चलम्।\nअभ्यासेन तु कौन्तेय वैराग्येण च गृह्यते॥",
+    transliteration: "Asaṁśhayaṁ mahā-bāho mano durnigrahaṁ chalam,\nAbhyāsena tu kaunteya vairāgyeṇa cha gṛihyate.",
+    meaning_en: "The mind is undoubtedly restless and hard to calm, but through gentle practice (Abhyasa) and letting go (Vairagya), it finds peace.",
+    meaning_hi: "निःसंदेह मन चंचल और वश में करने में कठिन है, परंतु अभ्यास और वैराग्य के द्वारा इसे शांत किया जा सकता है।",
+    daily_life_en: "Don't fight your racing thoughts—just step back from screens for 5 minutes and breathe slowly.",
+    daily_life_hi: "भागते हुए विचारों से लड़ो मत—बस ५ मिनट शांत बैठकर गहरी साँस लो।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/6/verse/35",
+    keywords: [
+      "focus", "distraction", "restless", "overthinking", "meditation", "concentration",
+      "dimag", "soch", "sleep", "neend", "tension", "ओवरथिंकिंग", "दिमाग", "चंचल"
+    ]
+  },
+  {
+    chapter: 9,
+    verse: 22,
+    shlok: "अनन्याश्चिन्तयन्तो मां ये जनाः पर्युपासते।\nतेषां नित्याभियुक्तानां योगक्षेमं वहाम्यहम्॥",
+    transliteration: "Ananyāśh chintayanto māṁ ye janāḥ paryupāsate,\nTeṣhāṁ nityābhiyuktānāṁ yoga-kṣhemaṁ vahāmyaham.",
+    meaning_en: "For those who remember Me with love and trust, I personally carry what they lack and preserve what they have.",
+    meaning_hi: "जो अनन्य भाव से मेरा स्मरण करते हैं, उनका योगक्षेम (हर आवश्यकता और रक्षा) मैं स्वयं वहन करता हूँ।",
+    daily_life_en: "Know that you are deeply cared for and never walking through life alone.",
+    daily_life_hi: "यह विश्वास रखो कि तुम इस सफर में कभी अकेले नहीं हो, तुम्हारा सखा हर कदम पर तुम्हारे साथ है।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/9/verse/22",
+    keywords: [
+      "alone", "care", "love", "trust", "bharosa", "friend", "support", "help", "madad",
+      "kya karu", "kya karun", "dar", "भरोसा", "मित्र", "प्यार"
+    ]
+  },
+  {
+    chapter: 2,
+    verse: 62,
+    shlok: "ध्यायतो विषयान्पुंसः सङ्गस्तेषूपजायते।\nसङ्गात्सञ्जायते कामः कामात्क्रोधोऽभिजायते॥",
+    transliteration: "Dhyāyato viṣhayān puṁsaḥ saṅgas teṣhūpajāyate,\nSaṅgāt sañjāyate kāmaḥ kāmāt krodho ’bhijāyate.",
+    meaning_en: "Dwelling repeatedly on expectations creates attachment; from attachment comes craving, and when thwarted, anger and hurt arise.",
+    meaning_hi: "विषयों का चिंतन करने से आसक्ति होती है, आसक्ति से कामना और कामना में बाधा पड़ने से क्रोध और दुःख उत्पन्न होता है।",
+    daily_life_en: "Protect your heart by noticing when an expectation is turning into emotional dependency.",
+    daily_life_hi: "दूसरों के व्यवहार से अपनी खुशी का रिमोट कंट्रोल वापस अपने हाथ में ले लो।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/2/verse/62",
+    keywords: [
+      "anger", "desire", "attachment", "jealousy", "frustration", "temper", "gussa",
+      "naraz", "dhoka", "expectations", "उम्मीद", "गुस्सा", "क्रोध"
+    ]
+  },
+  {
+    chapter: 3,
+    verse: 35,
+    shlok: "श्रेयान्स्वधर्मो विगुणः परधर्मात्स्वनुष्ठितात्।\nस्वधर्मे निधनं श्रेयः परधर्मो भयावहः॥",
+    transliteration: "Śhreyān sva-dharmo viguṇaḥ para-dharmāt sv-anuṣhṭhitāt,\nSva-dharme nidhanaṁ śhreyaḥ para-dharmo bhayāvahaḥ.",
+    meaning_en: "It is far better to walk your own authentic path (Svadharma) imperfectly than to imitate someone else's life perfectly.",
+    meaning_hi: "अच्छी प्रकार आचरण किए गए दूसरे के धर्म से गुणरहित भी अपना स्वधर्म श्रेष्ठ है।",
+    daily_life_en: "Stop comparing your journey with others—your pace and your story are uniquely yours.",
+    daily_life_hi: "दूसरों से अपनी तुलना मत करो, तुम्हारी अपनी खूबी और तुम्हारा अपना रास्ता सबसे खास है।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/3/verse/35",
+    keywords: [
+      "comparison", "purpose", "passion", "career", "confused", "path", "dharma",
+      "society", "log kya", "samajh nahi", "रास्ता", "तुलना"
+    ]
+  },
+  {
+    chapter: 12,
     verse: 15,
-    shlok: "अनुद्वेगकरं वाक्यं सत्यं प्रियहितं च यत्।\nस्वाध्यायाभ्यसनं चैव वाङ्मयं तप उच्यते॥",
-    transliteration: "Anudvega-karaṁ vākyaṁ satyaṁ priya-hitaṁ cha yat,\nSvādhyāyābhyasanaṁ chaiva vāṅ-mayaṁ tapa uchyate.",
-    meaning_en: "Words that cause no distress, that are truthful, pleasant, and beneficial, as well as the regular recitation of scriptures—this is declared to be the austerity of speech.",
-    meaning_hi: "जो वाणी किसी को उद्विग्न न करने वाली, सत्य, प्रिय और हितकारक हो तथा स्वाध्याय का अभ्यास हो—वही वाणी का तप कहलाता है।",
-    daily_life_en: "In family, friendships, and workplace conflicts, practice the discipline of speech: before speaking, ask if your words are true, kind, and genuinely helpful rather than reactive.",
-    daily_life_hi: "परिवार, मित्रता और कार्यस्थल के संबंधों में वाणी का संयम रखें: बोलने से पहले सोचें कि क्या आपके शब्द सत्य, शांत और दूसरे के हित में हैं।",
-    keywords: ["relationship", "communication", "family", "marriage", "friend", "argument", "conflict", "words", "speech", "truth", "kindness", "people"]
+    shlok: "यस्मान्नोद्विजते लोको लोकान्नोद्विजते च यः।\nहर्षामर्षभयोद्वेगैर्मुक्तो यः स च मे प्रियः॥",
+    transliteration: "Yasmān nodvijate loko lokān nodvijate cha yaḥ,\nHarṣhāmarṣha-bhayodvegair mukto yaḥ sa cha me priyaḥ.",
+    meaning_en: "One by whom no one is put into difficulty and who is not disturbed by anyone, who is free from envy, fear, and anxiety, is very dear to Me.",
+    meaning_hi: "जिससे कोई भी जीव उद्विग्न नहीं होता और जो स्वयं भी किसी से उद्विग्न नहीं होता, वह भक्त मुझे अत्यंत प्रिय है।",
+    daily_life_en: "Guard your inner peace gently in relationships—neither hurt others nor let harsh people steal your calm.",
+    daily_life_hi: "संबंधों में अपनी शांति बनाए रखो—न किसी को ठेस पहुँचाओ और न ही दूसरों की कड़वाहट से अपना मन खराब करो।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/12/verse/15",
+    keywords: [
+      "people", "family", "toxic", "relationship", "peace", "calm", "dear", "respect", "rishte", "परिवार", "शांति"
+    ]
+  },
+  {
+    chapter: 18,
+    verse: 37,
+    shlok: "यत्तदग्रे विषमिव परिणामेऽमृतोपमम्।\nतत्सुखं सात्त्विकं प्रोक्तमात्मबुद्धिप्रसादजम्॥",
+    transliteration: "Yat tad agre viṣham iva pariṇāme ’mṛitopamam,\nTat sukhaṁ sāttvikaṁ proktam ātma-buddhi-prasāda-jam.",
+    meaning_en: "That which seems like poison in the beginning, but is like nectar in the end, is true Sattvic happiness born of self-realization.",
+    meaning_hi: "जो आरंभ में विष के समान कठिन प्रतीत होता है, किंतु परिणाम में अमृत के समान है, वही सच्चा सात्त्विक सुख है।",
+    daily_life_en: "Good habits, discipline, and honest healing feel hard at first, but they bring lasting peace like nectar.",
+    daily_life_hi: "अच्छी आदतें और आत्म-अनुशासन शुरू में कठिन लगते हैं, पर अंत में अमृत जैसा सच्चा सुकून देते हैं।",
+    sourceUrl: "https://www.holy-bhagavad-gita.org/chapter/18/verse/37",
+    keywords: [
+      "habit", "discipline", "procrastination", "lazy", "aalas", "hard", "motivation", "success", "आदत", "अनुशासन"
+    ]
   }
 ];
 
-export function findRelevantVerses(query, limit = 2) {
-  if (!query || typeof query !== "string") return GITA_VERSES.slice(0, limit);
-  const q = query.toLowerCase();
+export function getCanonicalVerse(chapter, verse) {
+  const ch = parseInt(chapter, 10);
+  const v = parseInt(verse, 10);
+  return GITA_VERSES.find((item) => item.chapter === ch && item.verse === v) || null;
+}
 
-  // Check for explicit chapter:verse pattern like "2:47" or "chapter 2 verse 47"
-  const chVerseMatch = q.match(/(\d+)\s*[:.]\s*(\d+)/) || q.match(/chapter\s*(\d+).*?verse\s*(\d+)/i);
+export function getDailyShloka() {
+  const dayIndex = Math.floor(Date.now() / 86400000) % GITA_VERSES.length;
+  return GITA_VERSES[dayIndex];
+}
+
+export function formatCanonicalSource(verseObj, langCode = "hi") {
+  if (!verseObj) return null;
+  const isIndic = ["hi", "sa", "mr", "gu"].includes(langCode);
+  return {
+    chapter: verseObj.chapter,
+    verse: verseObj.verse,
+    shlok: verseObj.shlok,
+    transliteration: verseObj.transliteration,
+    meaning: isIndic ? verseObj.meaning_hi : verseObj.meaning_en,
+    meaningHi: verseObj.meaning_hi,
+    meaningEn: verseObj.meaning_en,
+    dailyLife: isIndic ? verseObj.daily_life_hi : verseObj.daily_life_en,
+    sourceUrl:
+      verseObj.sourceUrl ||
+      `https://www.holy-bhagavad-gita.org/chapter/${verseObj.chapter}/verse/${verseObj.verse}`
+  };
+}
+
+const CASUAL_GREETING_REGEX =
+  /^(hi+|hello+|hey+|namaste|namaskar|pranam|radhe radhe|jai shree krishna|hare krishna|kaise ho|kaisa hai|how are you|thank you|thanks|shukriya|dhanyawad|ok|okay|hmm+|acha|achha|नमस्ते|प्रणाम|राधे राधे|जय श्री कृष्ण|धन्यवाद|कैसे हो)[?!.\s]*$/i;
+
+export function findRelevantVerses(
+  query,
+  limit = 1,
+  recentChaptersVerses = [],
+  options = {}
+) {
+  if (!query || typeof query !== "string") return GITA_VERSES.slice(0, limit);
+  const q = query.toLowerCase().trim();
+
+  if (options.allowEmpty && CASUAL_GREETING_REGEX.test(q)) {
+    return [];
+  }
+
+  const chVerseMatch =
+    q.match(/(\d+)\s*[:.]\s*(\d+)/) ||
+    q.match(/chapter\s*(\d+).*?verse\s*(\d+)/i);
   if (chVerseMatch) {
-    const ch = parseInt(chVerseMatch[1], 10);
-    const v = parseInt(chVerseMatch[2], 10);
-    const exact = GITA_VERSES.find((item) => item.chapter === ch && item.verse === v);
+    const exact = getCanonicalVerse(chVerseMatch[1], chVerseMatch[2]);
     if (exact) return [exact];
   }
 
   const scored = GITA_VERSES.map((verse) => {
     let score = 0;
+    const key = `${verse.chapter}.${verse.verse}`;
     for (const kw of verse.keywords) {
-      if (q.includes(kw)) score += 3;
+      if (q.includes(kw)) score += 4;
     }
-    const words = q.split(/\W+/).filter((w) => w.length > 3);
+    const words = q.split(/\W+/).filter((w) => w.length > 2);
     for (const w of words) {
       if (verse.meaning_en.toLowerCase().includes(w)) score += 1;
       if (verse.daily_life_en.toLowerCase().includes(w)) score += 1;
       if (verse.meaning_hi.includes(w)) score += 2;
     }
+    if (recentChaptersVerses.includes(key)) {
+      score -= 15;
+    }
     return { verse, score };
   });
 
   scored.sort((a, b) => b.score - a.score);
-  const top = scored.filter((s) => s.score > 0).map((s) => s.verse);
-  if (top.length > 0) return top.slice(0, limit);
-  return [GITA_VERSES[0], GITA_VERSES[2]].slice(0, limit);
+  return scored.slice(0, limit).map((s) => s.verse);
 }

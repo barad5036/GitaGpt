@@ -1,142 +1,94 @@
-# GitaGPT 🕉️
+# GitaGPT — श्रीमद्भगवद्गीता सखा (Your Spiritual Friend & Bhagavad Gita Companion)
 
-> AI-powered chat companion rooted in the wisdom of the Bhagavad Gita
-
-GitaGPT is an intelligent conversational AI that provides guidance, life advice, and philosophical insights based on the teachings of the Bhagavad Gita. Built with modern web technologies and featuring speech recognition, multilingual support, and personalized responses.
-
-## ✨ Features
-
-- **🤖 Krishna AI Personality** - Responds as Lord Krishna guiding "Parth" (the user)
-- **🎤 Speech-to-Text** - Voice input with real-time transcription
-- **🌍 Multilingual** - Supports Hindi, English, and Hinglish naturally
-- **🧠 Emotion Detection** - Adapts responses based on user's emotional state
-- **📚 RAG System** - Retrieves relevant verses using sentence embeddings
-- **🔐 JWT Authentication** - Secure user sessions with token-based auth
-- **💾 Chat History** - Persistent conversation storage with local caching
-- **📱 Responsive Design** - Modern UI with dark theme and smooth animations
-- **🔍 Chat Search** - Find previous conversations easily
-
-## 🏗️ Architecture
-
-### Backend (`gita/scripts/api.py`)
-- **FastAPI** - High-performance Python web framework
-- **Groq LLaMA 3.3** - Advanced language model for natural responses
-- **SentenceTransformers** - Vector embeddings for semantic search
-- **Scikit-learn** - Cosine similarity for verse retrieval
-- **JWT Auth** - Secure token-based authentication
-
-### Frontend (`updatedFrontend/dharmic-guidance/`)
-- **React 19** - Modern component-based UI
-- **TanStack Router** - File-based routing with TypeScript
-- **TailwindCSS** - Utility-first styling with custom saffron theme
-- **Web Speech API** - Browser-native voice recognition
-- **LocalStorage** - Client-side chat persistence
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Python 3.9+
-- Node.js 18+
-- Groq API key
-
-### Backend Setup
-
-1. **Install dependencies**
-   ```bash
-   cd gita/scripts
-   pip install fastapi uvicorn groq sentence-transformers scikit-learn python-dotenv
-   ```
-
-2. **Configure environment**
-   ```bash
-   echo "GROQ_API_KEY=your_groq_api_key_here" > .env
-   ```
-
-3. **Run the server**
-   ```bash
-   python api.py
-   ```
-   Server starts at `http://127.0.0.1:8000`
-
-### Frontend Setup
-
-1. **Install dependencies**
-   ```bash
-   cd updatedFrontend/dharmic-guidance
-   bun install  # or npm install
-   ```
-
-2. **Start development server**
-   ```bash
-   bun run dev  # or npm run dev
-   ```
-   Frontend runs at `http://localhost:8080`
-
-## 📖 Usage
-
-1. **Open** `http://localhost:8080` in your browser
-2. **Click** microphone button for voice input (Chrome/Edge recommended)
-3. **Type or speak** your question about life, philosophy, or guidance
-4. **Receive** personalized responses with relevant Gita verses
-5. **Browse** chat history in the sidebar
-
-## 🎯 Example Interactions
-
-```
-User: "I'm feeling lost in life, what should I do?"
-
-Krishna: "पार्थ, जब मन भटक जाता है, तो स्वधर्म का स्मरण करो। 
-तुम्हारा कर्तव्य क्या है? बिना फल की चिंता किए, कर्म करते रहो। 
-क्या तुम अपने जीवन के उद्देश्य को जानते हो?"
-
-📖 Chapter 18, Verse 47
-"Better is one's own dharma, though imperfectly performed, than the dharma of another well performed..."
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-- `GROQ_API_KEY` - Your Groq API key for LLaMA access
-- `AUTH_SECRET` - JWT signing secret (default: "gita-secret-key")
-
-### Customization
-- **Personality**: Modify system prompts in `build_prompt()` function
-- **UI Theme**: Adjust colors in `src/styles.css` saffron variables
-- **Voice Settings**: Configure language/dialect in `use-speech.ts`
-
-## 📊 Data Sources
-
-- **Bhagavad Gita Text**: 700 verses with translations and meanings
-- **Embeddings**: Pre-computed sentence vectors for fast similarity search
-- **Commentary**: Contextual explanations and philosophical insights
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Bhagavad Gita** - The timeless source of wisdom
-- **Groq** - Lightning-fast AI inference
-- **TanStack** - Modern React tooling
-- **Lovable** - UI component inspiration
-
-## 📞 Support
-
-For questions, issues, or suggestions:
-- Open an [Issue](https://github.com/barad5036/GitaGpt/issues)
-- Connect on [LinkedIn](https://linkedin.com/in/barad5036)
+> A production-grade, Hindi-first ("Sakha / close friend" style) Bhagavad Gita conversational companion with verified canonical scripture RAG, crisis safety intervention, opt-in privacy controls, and fluent open-source neural voice packs.
 
 ---
 
-**Made with ❤️ and ancient wisdom**
+## ✨ Key Features
 
-*"कर्मण्येवाधिकारस्ते मा फलेषु कदाचन"* - You have the right to act, but never to the fruits of action.
+- **💛 Sakha (Best Friend) Conversational Persona**: Speaks in short, emotionally resonant, line-by-line chat bubbles rather than dense textbook paragraphs.
+- **📖 Verified Canonical Verse RAG**: Retrieves authentic Bhagavad Gita verses (Sanskrit Devanagari, IAST Transliteration, Hindi & English Meaning, Daily Life Takeaway, and a **Verified Source Chip** linking to the scripture). Never invents or hallucinates verses.
+- **🛡️ Crisis & Self-Harm Safety Layer (P0)**: Detects acute distress or self-harm phrases in **Hindi, Hinglish, and English** and immediately responds with warm empathy and 24×7 **Indian Mental Health Helpline cards** (**Tele-MANAS `14416` / `1800-891-4416`**, **Vandrevala Foundation**, and **iCall**).
+- **🔒 Opt-In Friend Memory & Full Privacy Control**: Strictly opt-in memory with inline edit, delete, and a one-click **"Delete All My Data"** button.
+- **🔊 Open-Source Neural Voice Pack (Piper VITS WASM)**: Lazy-loaded local browser WASM neural TTS (`@diffusionstudio/vits-web`) + natural multilingual system voices with **live spoken sentence highlighting** and speed controls (`0.9x`–`1.2x`).
+- **🗂️ Smart Thread Management**: Auto-generated topic titles, Date Grouping (*📌 Pinned, Today, Yesterday, Previous 7 Days, Earlier*), inline rename, pin/unpin, and delete with **Undo Toast**.
+- **🎨 Celestial Peacock & Sacred Ivory Themes**: Dark & Light themes with `Noto Sans Devanagari` typography so Hindi/Sanskrit matras are never clipped, plus installable **PWA manifest** and custom chariot emblem icons.
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+flowchart LR
+  subgraph Client["Frontend (Vite + React 19 + PWA)"]
+    UI["Modular UI\n(SidebarPane, AssistantMessageItem,\nSafetyAndLegal, ErrorBoundary)"]
+    Safety["Safety & Crisis Guard\n(Hindi / Hinglish / English\n+ Tele-MANAS 14416)"]
+    RAG["Canonical Verse RAG\n(gitaVerses.js — Verified Corpus)"]
+    Voice["Lazy-Loaded Voice Pack\n(@diffusionstudio/vits-web WASM)"]
+  end
+
+  subgraph Gateway["API Proxy / FastAPI Backend"]
+    Proxy["/api/ai Proxy or FastAPI (/ask, /health)\nRate Limiting + CORS Allow-List"]
+  end
+
+  UI --> Safety
+  Safety --> RAG
+  RAG --> Proxy
+  UI -.->|Dynamic import()| Voice
+```
+
+---
+
+## 🚀 Quick Start
+
+### 1. Frontend (`gita-frontend/`)
+```bash
+cd gita-frontend
+npm install
+npm run dev
+```
+Open `http://localhost:5173/`.
+
+### 2. Available Scripts (`gita-frontend/package.json`)
+| Script | Description |
+| :--- | :--- |
+| `npm run dev` | Start Vite development server with `/api/ai` proxy |
+| `npm run build` | Production build with code-splitting (`dist/`) |
+| `npm run lint` | Run ESLint across all modules |
+| `npm test` | Run automated unit tests (`node --test`) |
+| `npm run preview` | Preview production build locally |
+
+### 3. Optional FastAPI Backend (`gita/scripts/api.py`)
+```bash
+pip install fastapi uvicorn pydantic
+python gita/scripts/api.py
+```
+
+#### Backend Environment Variables
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `ALLOWED_ORIGINS` | `http://localhost:5173,http://127.0.0.1:5173` | Comma-separated CORS allow-list |
+| `RATE_LIMIT_PER_MIN` | `60` | Max requests per minute per client IP |
+| `PORT` | `8000` | Backend server port |
+
+---
+
+## 🚢 Deployment
+
+- **Frontend (Vercel / Netlify)**: Deploy `gita-frontend/` with build command `npm run build` and output directory `dist`. [vercel.json](file:///c:/Users/ACER/Downloads/GitaGpt/gita-frontend/vercel.json) is pre-configured with `/api/ai` rewrites and SPA routing.
+- **CI/CD**: GitHub Actions workflow in [.github/workflows/ci.yml](file:///c:/Users/ACER/Downloads/GitaGpt/.github/workflows/ci.yml) runs `npm ci`, `npm run lint`, `npm test`, and `npm run build` on every push and PR.
+
+---
+
+## ✅ Production Upgrade Checklist
+
+- [x] **Codebase Audit & Architecture Plan** (`audit_and_plan.md`)
+- [x] **P0 Crisis & Self-Harm Detection** (Hindi, Hinglish, English + Tele-MANAS `14416` / `1800-891-4416` Helpline Card)
+- [x] **P0 Opt-In Memory Privacy** (Consent toggle, view/edit/delete memories, "Delete All My Data", Privacy & Terms modal)
+- [x] **P0 Canonical Verse RAG** (Verified Sanskrit, IAST Transliteration, Hindi meaning, Source Chip, zero hallucinated verses)
+- [x] **Streaming + Stop Generating Button** (`AbortController` + progressive line streaming)
+- [x] **Smart Conversation Titles + Pin, Rename, Undo Delete & Date Grouping**
+- [x] **Copy, Regenerate, Like / Dislike & Markdown Rendering** on every assistant message
+- [x] **Custom Emblem Favicon & PWA Icons** (`logo.png`, `favicon.png`, `favicon.ico`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png`)
+- [x] **Lazy-Loaded Open-Source Voice Pack + Live Spoken Sentence Highlighting**
+- [x] **WCAG 2.2 AA Accessibility, Devanagari Typography, Unit Tests & CI Workflow**

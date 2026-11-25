@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: gitagpt-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-gitagpt}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-gitagpt_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-gitagpt}
+    ports:
+      - "5432:5432"
+    volumes:
+      - gitagpt_pgdata:/var/lib/postgresql/data
+      - ./backend/db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gitagpt -d gitagpt"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgbouncer:
+    image: edoburu/pgbouncer:1.22.0-p0
+    container_name: gitagpt-pgbouncer
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_USER: ${POSTGRES_USER:-gitagpt}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-gitagpt_secret}
+      DB_HOST: postgres
+      DB_NAME: ${POSTGRES_DB:-gitagpt}
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 200
+      DEFAULT_POOL_SIZE: 25
+    ports:
+      - "6432:5432"
+
+volumes:
+  gitagpt_pgdata:

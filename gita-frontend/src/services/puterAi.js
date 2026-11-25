@@ -12,8 +12,10 @@ import {
   detectCrisisMessage,
   buildCrisisInterventionResponse
 } from "./safetyService.js";
+import { getAccessTokenInMemory } from "./webCryptoCache.js";
 
-let lastRemoteCallTimestamp = 0;
+const API_BASE = (import.meta.env?.VITE_API_BASE || "").replace(/\/+$/, "");
+let lastRemoteCooldownTimestamp = 0;
 
 /**
  * Generates a clean, human-readable conversation title from the first message.
@@ -302,28 +304,6 @@ function generateContextualSakhaResponse({
   };
 }
 
-function buildNaturalSystemPrompt(languageCode, matchedVerses, memories = [], userName = "") {
-  const v = matchedVerses[0];
-  const verseHint = v
-    ? `Relevant Bhagavad Gita wisdom if helpful: Chapter ${v.chapter}, Verse ${v.verse} (${v.meaning_en}).`
-    : "";
-  const memoryHint =
-    memories.length > 0
-      ? `What you remember about your friend: ${memories.map((m) => m.text).join("; ")}`
-      : "";
-
-  return `You are GitaGPT — Lord Krishna speaking as a warm, emotionally intelligent, caring best friend ("Sakha") to ${
-    userName || "your friend"
-  }.
-
-Rules:
-1. Respond naturally like ChatGPT with the warmth of a close friend. Never repeat previous answers!
-2. Match the language requested (${languageCode}): if Hindi ('hi'), write in natural, conversational Hindi (Devanagari); if 'hinglish', write in natural Hinglish; if 'en', write in warm English.
-3. Keep your reply concise, empathetic, and easy to read (2 to 4 short paragraphs separated by blank lines).
-4. Respond directly to what the user JUST said, weave in Bhagavad Gita wisdom naturally (${verseHint}), and end with a caring follow-up question.
-${memoryHint}`;
-}
-
 async function streamTextProgressively(fullText, onStreamChunk, signal) {
   if (!onStreamChunk || !fullText) return;
   const words = fullText.split(" ");
@@ -337,6 +317,129 @@ async function streamTextProgressively(fullText, onStreamChunk, signal) {
       onStreamChunk(current);
       await new Promise((r) => setTimeout(r, 18));
     }
+  }
+}
+
+function cleanModelOutput(rawText = "") {
+  return rawText
+    .replace(/<\/?(memory|reasoning|answer|verse_ref)>/gi, "")
+    .trim();
+}
+
+function buildBackendHeaders() {
+  const headers = { "Content-Type": "application/json" };
+  const token = getAccessTokenInMemory?.();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+}
+
+async function streamSseFromBackend({ payload, signal, onStreamChunk }) {
+  const timeoutCtrl = new AbortController();
+  const timer = setTimeout(() => timeoutCtrl.abort(), 28000);
+  const onOuterAbort = () => timeoutCtrl.abort();
+  signal?.addEventListener("abort", onOuterAbort, { once: true });
+
+  try {
+    const res = await fetch(`${API_BASE}/api/chat/stream`, {
+      method: "POST",
+      headers: buildBackendHeaders(),
+      body: JSON.stringify(payload),
+      signal: timeoutCtrl.signal
+    });
+
+    if (res.status === 402 || res.status === 429) {
+      lastRemoteCooldownTimestamp = Date.now();
+      return { rateLimited: true, text: "" };
+    }
+    if (!res.ok || !res.body) {
+      return { text: "" };
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let fullText = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+
+      const lines = buffer.split(/\r?\n/);
+      buffer = lines.pop() ?? "";
+
+      for (const rawLine of lines) {
+        const line = rawLine.trim();
+        if (!line || !line.startsWith("data:")) continue;
+        const dataStr = line.slice(5).trim();
+        if (!dataStr || dataStr === "[DONE]") {
+          if (dataStr === "[DONE]") {
+            const cleaned = cleanModelOutput(fullText);
+            if (cleaned) onStreamChunk?.(cleaned);
+            return { text: cleaned };
+          }
+          continue;
+        }
+        try {
+          const parsed = JSON.parse(dataStr);
+          if (parsed?.error) {
+            return { text: cleanModelOutput(fullText) };
+          }
+          const delta = parsed?.choices?.[0]?.delta?.content;
+          if (typeof delta === "string" && delta.length > 0) {
+            fullText += delta;
+            onStreamChunk?.(cleanModelOutput(fullText));
+          }
+        } catch {
+          // Ignore partial or malformed SSE lines
+        }
+      }
+    }
+
+    const cleaned = cleanModelOutput(fullText);
+    if (cleaned) onStreamChunk?.(cleaned);
+    return { text: cleaned };
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener("abort", onOuterAbort);
+  }
+}
+
+async function fetchNonStreamFromBackend({ payload, signal, onStreamChunk }) {
+  const timeoutCtrl = new AbortController();
+  const timer = setTimeout(() => timeoutCtrl.abort(), 12000);
+  const onOuterAbort = () => timeoutCtrl.abort();
+  signal?.addEventListener("abort", onOuterAbort, { once: true });
+
+  try {
+    const res = await fetch(`${API_BASE}/api/chat`, {
+      method: "POST",
+      headers: buildBackendHeaders(),
+      body: JSON.stringify(payload),
+      signal: timeoutCtrl.signal
+    });
+
+    if (res.status === 402 || res.status === 429) {
+      lastRemoteCooldownTimestamp = Date.now();
+      return "";
+    }
+    if (!res.ok) return "";
+
+    const data = await res.json();
+    const rawText = data?.choices?.[0]?.message?.content?.trim() || "";
+    const cleaned = cleanModelOutput(rawText);
+    if (cleaned.length > 10) {
+      if (onStreamChunk) {
+        await streamTextProgressively(cleaned, onStreamChunk, signal);
+      }
+      return cleaned;
+    }
+    return "";
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener("abort", onOuterAbort);
   }
 }
 
@@ -376,77 +479,64 @@ export async function askGitaPuterAI({
     { allowEmpty: true }
   );
 
-  const systemPrompt = buildNaturalSystemPrompt(
-    language,
-    matchedVerses,
-    isMemoryOptedIn() ? activeMemories : [],
-    userName
-  );
-
   const recentHistory = history.slice(-8).map((m) => ({
     role: m.role === "assistant" ? "assistant" : "user",
     content: m.text
   }));
 
-  const chatMessages = [
-    { role: "system", content: systemPrompt },
-    ...recentHistory,
-    { role: "user", content: cleanQuestion }
-  ];
+  const primaryVerse = matchedVerses[0] || null;
+  const backendPayload = {
+    messages: [...recentHistory, { role: "user", content: cleanQuestion }],
+    language,
+    userName,
+    memories: isMemoryOptedIn() ? activeMemories : [],
+    verse: primaryVerse
+      ? {
+          chapter: primaryVerse.chapter,
+          verse: primaryVerse.verse,
+          text: primaryVerse.sanskrit || primaryVerse.translation_en || ""
+        }
+      : null
+  };
 
-  // Try live LLM endpoint if not within Pollinations' 45s per-IP cooldown window
-  const now = Date.now();
-  if (now - lastRemoteCallTimestamp > 45000) {
+  // Try backend SSE streaming first, then non-streaming /api/chat
+  if (Date.now() - lastRemoteCooldownTimestamp > 15000) {
     try {
-      const timeoutCtrl = new AbortController();
-      const timer = setTimeout(() => timeoutCtrl.abort(), 6500);
-      const onOuterAbort = () => timeoutCtrl.abort();
-      signal?.addEventListener("abort", onOuterAbort, { once: true });
-
-      const res = await fetch("https://text.pollinations.ai/openai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "openai",
-          messages: chatMessages,
-          temperature: 0.8,
-          seed: Math.floor(Math.random() * 1000000)
-        }),
-        signal: timeoutCtrl.signal
+      const streamed = await streamSseFromBackend({
+        payload: backendPayload,
+        signal,
+        onStreamChunk
       });
-      clearTimeout(timer);
-      signal?.removeEventListener("abort", onOuterAbort);
+      if (streamed.text && streamed.text.length > 10) {
+        return {
+          text: streamed.text,
+          reasoning: "",
+          emotion,
+          memoryAdded: newlyAddedMemory,
+          updatedMemories: activeMemories,
+          sources: primaryVerse ? [formatCanonicalSource(primaryVerse, language)] : []
+        };
+      }
 
-      if (res.ok) {
-        const data = await res.json();
-        const rawText = data?.choices?.[0]?.message?.content?.trim() || "";
-        if (rawText.length > 15) {
-          lastRemoteCallTimestamp = Date.now();
-          const cleanedAnswer = rawText
-            .replace(/<\/?(memory|reasoning|answer|verse_ref)>/gi, "")
-            .trim();
-
-          if (onStreamChunk) {
-            await streamTextProgressively(cleanedAnswer, onStreamChunk, signal);
-          }
-
+      if (!streamed.rateLimited) {
+        const fallbackRemote = await fetchNonStreamFromBackend({
+          payload: backendPayload,
+          signal,
+          onStreamChunk
+        });
+        if (fallbackRemote) {
           return {
-            text: cleanedAnswer,
+            text: fallbackRemote,
             reasoning: "",
             emotion,
             memoryAdded: newlyAddedMemory,
             updatedMemories: activeMemories,
-            sources:
-              matchedVerses.length > 0
-                ? [formatCanonicalSource(matchedVerses[0], language)]
-                : []
+            sources: primaryVerse ? [formatCanonicalSource(primaryVerse, language)] : []
           };
         }
-      } else if (res.status === 402 || res.status === 429) {
-        lastRemoteCallTimestamp = Date.now();
       }
     } catch (err) {
-      if (signal?.aborted) throw err;
+      if (signal?.aborted || err?.name === "AbortError") throw err;
     }
   }
 

@@ -19,9 +19,28 @@ import {
   generateEmailOtp,
   verifyEmailOtp
 } from "./auth/authService.js";
-import { generateCompletionFromProvider } from "./llm/llmProvider.js";
+import {
+  buildSystemPrompt,
+  streamChatCompletion,
+  generateCompletion
+} from "./llm/llmProvider.js";
+import { normalizeChatRequest, isCrisisText, crisisReply } from "./safety.js";
 
 const env = loadAndValidateEnv();
+
+// Per-user (or per-IP for anonymous use) daily chat quota
+const dailyChatUsage = new Map();
+function consumeDailyQuota(key) {
+  const day = new Date().toISOString().slice(0, 10);
+  const entry = dailyChatUsage.get(key);
+  if (!entry || entry.day !== day) {
+    dailyChatUsage.set(key, { day, count: 1 });
+    return true;
+  }
+  if (entry.count >= env.userDailyQuota) return false;
+  entry.count += 1;
+  return true;
+}
 
 /**
  * Encrypted In-Memory Store (mirrors PostgreSQL schema with identical Envelope Encryption & AAD)
@@ -689,11 +708,18 @@ export const server = http.createServer(async (req, res) => {
         sendJson(res, 400, { error: "messages array is required." });
         return;
       }
-      const completion = await generateCompletionFromProvider({
-        messages: body.messages,
-        temperature: body.temperature ?? 0.72,
-        env
-      });
+      const chat = normalizeChatRequest(body);
+      const lastUserText = chat.messages[chat.messages.length - 1]?.content || "";
+      const content = isCrisisText(lastUserText)
+        ? crisisReply(chat.language)
+        : await generateCompletion({
+            messages: [
+              { role: "system", content: buildSystemPrompt(chat) },
+              ...chat.messages
+            ],
+            env
+          });
+      const completion = { content, reasoning: "" };
       sendJson(res, 200, {
         choices: [
           {
@@ -705,6 +731,74 @@ export const server = http.createServer(async (req, res) => {
           }
         ]
       });
+      return;
+    }
+
+    // 11. Streaming chat (Server-Sent Events, OpenAI-compatible chunk format)
+    if (req.method === "POST" && path === "/api/chat/stream") {
+      const body = await readJsonBody(req, 96 * 1024);
+      const chat = normalizeChatRequest(body);
+      const lastMessage = chat.messages[chat.messages.length - 1];
+      if (!lastMessage || lastMessage.role !== "user") {
+        sendJson(res, 400, { error: "A user message is required." });
+        return;
+      }
+
+      let quotaKey = `ip:${clientIp}`;
+      try {
+        quotaKey = `user:${authenticateRequest(req).id}`;
+      } catch {
+        // Anonymous request: quota is tracked per IP
+      }
+      if (!consumeDailyQuota(quotaKey)) {
+        sendJson(res, 429, {
+          error: "You've reached today's message limit. Please come back tomorrow."
+        });
+        return;
+      }
+
+      res.writeHead(200, {
+        "Content-Type": "text/event-stream; charset=utf-8",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+        "X-Accel-Buffering": "no"
+      });
+
+      const upstreamAbort = new AbortController();
+      res.on("close", () => {
+        if (!res.writableEnded) upstreamAbort.abort();
+      });
+      const sendDelta = (text) =>
+        res.write(
+          `data: ${JSON.stringify({ choices: [{ delta: { content: text } }] })}\n\n`
+        );
+
+      try {
+        if (isCrisisText(lastMessage.content)) {
+          sendDelta(crisisReply(chat.language));
+        } else {
+          const stream = streamChatCompletion({
+            messages: [
+              { role: "system", content: buildSystemPrompt(chat) },
+              ...chat.messages
+            ],
+            env,
+            signal: upstreamAbort.signal
+          });
+          for await (const delta of stream) {
+            sendDelta(delta);
+          }
+        }
+        res.write("data: [DONE]\n\n");
+      } catch {
+        if (!upstreamAbort.signal.aborted) {
+          res.write(
+            `data: ${JSON.stringify({ error: "The AI service is temporarily unavailable." })}\n\n`
+          );
+        }
+      } finally {
+        res.end();
+      }
       return;
     }
 

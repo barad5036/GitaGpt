@@ -230,6 +230,13 @@ export function AuthAndProfileModal({
     }
   };
 
+  const handleInputFocus = (e) => {
+    const target = e.currentTarget;
+    setTimeout(() => {
+      target?.scrollIntoView?.({ behavior: "smooth", block: "center" });
+    }, 180);
+  };
+
   return (
     <div
       className="modal-backdrop"
@@ -244,8 +251,7 @@ export function AuthAndProfileModal({
       onClick={isMandatoryGate ? undefined : onClose}
     >
       <div
-        className="modal-card"
-        style={{ maxWidth: 400, padding: "28px 24px" }}
+        className="modal-card auth-modal-card"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Close Button (hidden when login is mandatory before chatting) */}
@@ -263,26 +269,8 @@ export function AuthAndProfileModal({
         )}
 
         {/* Brand Header */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-            marginBottom: 22
-          }}
-        >
-          <div
-            style={{
-              width: 58,
-              height: 58,
-              borderRadius: 16,
-              overflow: "hidden",
-              border: "1px solid var(--border-strong)",
-              marginBottom: 14,
-              boxShadow: "0 10px 28px rgba(245, 158, 11, 0.22)"
-            }}
-          >
+        <div className="auth-brand-header">
+          <div className="auth-logo-box">
             <img
               src="/logo.png"
               alt="GitaGPT"
@@ -301,7 +289,7 @@ export function AuthAndProfileModal({
                 lineHeight: 1.5
               }}
             >
-              Log in to start chatting with your Bhagavad Gita companion.
+              Sign in to save your reflections and chat with your Bhagavad Gita companion.
             </p>
           )}
         </div>
@@ -427,34 +415,22 @@ export function AuthAndProfileModal({
 
             <input
               type="text"
+              className="auth-input"
               placeholder="Your Name"
               value={name}
+              onFocus={handleInputFocus}
               onChange={(e) => setName(e.target.value)}
-              style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border-subtle)",
-                borderRadius: 10,
-                padding: "11px 14px",
-                fontSize: "0.88rem",
-                outline: "none"
-              }}
             />
 
             <input
               type="email"
               required
               autoFocus
+              className="auth-input"
               placeholder="Enter your Gmail address"
               value={email}
+              onFocus={handleInputFocus}
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border-peacock)",
-                borderRadius: 10,
-                padding: "11px 14px",
-                fontSize: "0.88rem",
-                outline: "none"
-              }}
             />
 
             <div
@@ -522,18 +498,15 @@ export function AuthAndProfileModal({
               maxLength={6}
               required
               autoFocus
+              className="auth-input"
               placeholder="Enter 6-digit code"
               value={otpCode}
+              onFocus={handleInputFocus}
               onChange={(e) => setOtpCode(e.target.value)}
               style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border-peacock)",
-                borderRadius: 10,
-                padding: "11px 14px",
-                fontSize: "1.05rem",
+                fontSize: "1.1rem",
                 textAlign: "center",
-                letterSpacing: "0.22em",
-                outline: "none"
+                letterSpacing: "0.22em"
               }}
             />
 
@@ -572,20 +545,9 @@ export function AuthAndProfileModal({
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <button
               type="button"
+              className="auth-google-btn"
               onClick={handleGoogleContinue}
-              style={{
-                width: "100%",
-                padding: "12px 16px",
-                borderRadius: 11,
-                background: "var(--bg-card)",
-                border: "1px solid var(--border-subtle)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 10,
-                fontSize: "0.92rem",
-                fontWeight: 500
-              }}
+              disabled={busy}
             >
               <GoogleIcon />
               <span>Continue with Google</span>
@@ -626,34 +588,19 @@ export function AuthAndProfileModal({
               <input
                 type="email"
                 required
+                className="auth-input"
                 placeholder="Email address"
                 value={email}
+                onFocus={handleInputFocus}
                 onChange={(e) => setEmail(e.target.value)}
-                style={{
-                  width: "100%",
-                  background: "var(--bg-card)",
-                  border: "1px solid var(--border-subtle)",
-                  borderRadius: 11,
-                  padding: "12px 14px",
-                  fontSize: "0.92rem",
-                  outline: "none"
-                }}
               />
               <button
                 type="submit"
-                className="pill-btn peacock-active"
-                style={{
-                  width: "100%",
-                  justifyContent: "center",
-                  padding: "12px 16px",
-                  borderRadius: 11,
-                  fontSize: "0.92rem",
-                  fontWeight: 600
-                }}
+                className="pill-btn peacock-active auth-primary-btn"
                 disabled={busy || !email.trim()}
               >
                 <Mail size={15} />
-                <span>Continue with Email</span>
+                <span>{busy ? "Sending code..." : "Continue with Email"}</span>
               </button>
             </form>
 

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   Volume2,
   Square,
@@ -21,14 +23,13 @@ function splitIntoParagraphs(text = "") {
     .filter(Boolean);
 }
 
-function renderInlineMarkdown(text = "") {
-  const parts = text.split(/(\*\*.*?\*\*)/g);
-  return parts.map((part, idx) => {
-    if (part.startsWith("**") && part.endsWith("**")) {
-      return <strong key={idx}>{part.slice(2, -2)}</strong>;
-    }
-    return <span key={idx}>{part}</span>;
-  });
+export function MarkdownProse({ text = "", isStreaming = false }) {
+  return (
+    <div className="chatgpt-markdown">
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
+      {isStreaming && <span className="streaming-cursor" aria-hidden="true" />}
+    </div>
+  );
 }
 
 export function AssistantMessageItem({
@@ -64,23 +65,26 @@ export function AssistantMessageItem({
       </div>
 
       <div className="assistant-body">
-        {/* Clean ChatGPT-Style Flowing Prose (No stacked bordered boxes!) */}
-        <div className="chatgpt-assistant-prose">
-          {paragraphs.map((para, pIdx) => {
-            const isCurrentlySpoken =
-              isSpeakingThis && speakingLineIdx === pIdx;
-            return (
-              <p
-                key={pIdx}
-                className={`chatgpt-paragraph ${
-                  isCurrentlySpoken ? "speaking-highlight" : ""
-                }`}
-              >
-                {renderInlineMarkdown(para)}
-              </p>
-            );
-          })}
-        </div>
+        {/* Clean ChatGPT-Style Flowing Markdown Prose */}
+        {isSpeakingThis && speakingLineIdx != null ? (
+          <div className="chatgpt-assistant-prose">
+            {paragraphs.map((para, pIdx) => {
+              const isCurrentlySpoken = speakingLineIdx === pIdx;
+              return (
+                <div
+                  key={pIdx}
+                  className={`chatgpt-paragraph ${
+                    isCurrentlySpoken ? "speaking-highlight" : ""
+                  }`}
+                >
+                  <MarkdownProse text={para} />
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <MarkdownProse text={msg.text || ""} />
+        )}
 
         {/* P0 Safety Layer: Immediate Indian Helpline Card on Crisis Messages */}
         {msg.isCrisis && msg.helplines?.length > 0 && (

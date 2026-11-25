@@ -40,7 +40,10 @@ import {
   ToastBanner
 } from "./components/common/ErrorBoundaryAndFeedback.jsx";
 import { SidebarPane } from "./components/sidebar/SidebarPane.jsx";
-import { AssistantMessageItem } from "./components/chat/MessageActionsAndItem.jsx";
+import {
+  AssistantMessageItem,
+  MarkdownProse
+} from "./components/chat/MessageActionsAndItem.jsx";
 import { AuthAndProfileModal } from "./components/auth/AuthAndProfileModal.jsx";
 import {
   encryptLocalCacheJson,
@@ -119,12 +122,6 @@ function deriveTitle(messages, lang = "hi") {
   return generateSmartChatTitle(first.text, lang);
 }
 
-function splitIntoFriendLines(text = "") {
-  return text
-    .split(/\n+/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-}
 
 export default function App() {
   const [threads, setThreads] = useState(loadThreads);
@@ -848,15 +845,13 @@ export default function App() {
                       </button>
                     </div>
 
-                    {streamingText && (
-                      <div className="chatgpt-assistant-prose">
-                        {splitIntoFriendLines(streamingText).map(
-                          (line, sIdx) => (
-                            <p key={sIdx} className="chatgpt-paragraph">
-                              {line}
-                            </p>
-                          )
-                        )}
+                    {streamingText ? (
+                      <MarkdownProse text={streamingText} isStreaming />
+                    ) : (
+                      <div className="typing-dots" aria-label={t.thinking}>
+                        <span />
+                        <span />
+                        <span />
                       </div>
                     )}
                   </div>
